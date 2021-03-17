@@ -11,8 +11,8 @@ const yolo = (target) => {
             if (!results.length) {
                 return Reflect.get(...arguments);
             }
-
-            return target[results[0].item];
+            const value = target[results[0].item];
+            return typeof value === "object" ? yolo(value) : value;
         },
     });
 };
