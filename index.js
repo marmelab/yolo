@@ -16,6 +16,18 @@ const yolo = (target) => {
                 ? yolo(value)
                 : value;
         },
+        set: function (target, prop, value) {
+            if (target.hasOwnProperty(prop)) {
+                return Reflect.set(target, prop, value);
+            }
+            const keys = Object.keys(target);
+            var results = new Fuse(keys).search(prop);
+            if (!results.length) {
+                return Reflect.set(target, prop, value);
+            }
+
+            return Reflect.set(target, results[0].item, value);
+        },
         apply: function (target, thisArg, argumentsList) {
             const result = Reflect.apply(target, thisArg, argumentsList);
 
