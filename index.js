@@ -12,7 +12,16 @@ const yolo = (target) => {
                 return Reflect.get(...arguments);
             }
             const value = target[results[0].item];
-            return typeof value === "object" ? yolo(value) : value;
+            return typeof value === "object" || typeof value === "function"
+                ? yolo(value)
+                : value;
+        },
+        apply: function (target, thisArg, argumentsList) {
+            const result = Reflect.apply(target, thisArg, argumentsList);
+
+            return typeof result === "object" || typeof value === "function"
+                ? yolo(result)
+                : result;
         },
     });
 };
