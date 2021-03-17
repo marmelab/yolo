@@ -37,20 +37,15 @@ describe("yolo", () => {
 
     it("should allow to assign value with typo too", () => {
         object.icnredible = "It is correctly updated ?!?";
-        object.nseted.popr.wrko.oto = "Even nested wtf";
-        expect(object.icnredible).toBe("It is correctly updated ?!?");
+        object.nseted.popr.wrko.to = "Even nested wtf";
         expect(object.incredible).toBe("It is correctly updated ?!?");
         expect(object.netsed.prpo.owrk.oot).toBe("Even nested wtf");
         expect(object.nested.prop.work.too).toBe("Even nested wtf");
-        expect(object).toEqual({
-            getObject: object.getObject,
-            incredible: "It is correctly updated ?!?",
-            method: object.method,
-            nested: {
-                prop: {
-                    work: {
-                        too: "Even nested wtf",
-                    },
+        expect(object.icnredible).toBe("It is correctly updated ?!?");
+        expect(object.nested).toEqual({
+            prop: {
+                work: {
+                    too: "Even nested wtf",
                 },
             },
         });
@@ -62,12 +57,18 @@ describe("yolo", () => {
         object.foo = "bar";
         expect(object).toEqual({ foo: "bar" });
         expect(object.fo).toBe("bar");
-        object.ofo = { bar: "baz" };
+        object.fo = { bar: "baz" };
         expect(object.ofo.bra).toBe("baz");
         expect(object).toEqual({ foo: { bar: "baz" } });
     });
 
     it("should still return undefined if despite all effort the key was not found", () => {
-        expect(object.foo).toBe(undefined);
+        expect(object.foobar).toBe(undefined);
+    });
+
+    it("should work with date", () => {
+        const YoloDate = yolo(Date);
+        const date = new YoloDate();
+        expect(date.getSecnds()).toEqual(date.getSeconds());
     });
 });

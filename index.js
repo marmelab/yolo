@@ -1,23 +1,41 @@
 const Fuse = require("fuse.js");
 
+const getAllProperties = (obj) => {
+    var allProps = [],
+        curr = obj;
+    do {
+        var props = Object.getOwnPropertyNames(curr);
+        props.forEach(function (prop) {
+            if (allProps.indexOf(prop) === -1) allProps.push(prop);
+        });
+    } while ((curr = Object.getPrototypeOf(curr)));
+    return allProps;
+};
+
 const yolo = (target) => {
     return new Proxy(target, {
         get: function (target, prop) {
-            if (target.hasOwnProperty(prop)) {
-                return Reflect.get(...arguments);
+            if (target[prop]) {
+                const result = Reflect.get(target, prop);
+                return result && result.bind ? result.bind(target) : result;
             }
-            const keys = Object.keys(target);
+            const keys = getAllProperties(target);
             var results = new Fuse(keys).search(prop);
             if (!results.length) {
-                return Reflect.get(...arguments);
+                const result = Reflect.get(target, prop);
+                return result && result.bind ? result.bind(target) : result;
             }
-            const value = target[results[0].item];
-            return typeof value === "object" || typeof value === "function"
-                ? yolo(value)
-                : value;
+            const value = Reflect.get(target, results[0].item);
+
+            const boundValue = value && value.bind ? value.bind(target) : value;
+
+            return (typeof boundValue === "object" && boundValue !== null) ||
+                typeof boundValue === "function"
+                ? yolo(boundValue)
+                : boundValue;
         },
         set: function (target, prop, value) {
-            if (target.hasOwnProperty(prop)) {
+            if (target[prop]) {
                 return Reflect.set(target, prop, value);
             }
             const keys = Object.keys(target);
@@ -31,7 +49,14 @@ const yolo = (target) => {
         apply: function (target, thisArg, argumentsList) {
             const result = Reflect.apply(target, thisArg, argumentsList);
 
-            return typeof result === "object" || typeof value === "function"
+            return typeof result === "object" && result !== null
+                ? yolo(result)
+                : result;
+        },
+        construct: function (target, argumentsList) {
+            const result = Reflect.construct(target, argumentsList);
+
+            return typeof result === "object" && result !== null
                 ? yolo(result)
                 : result;
         },
