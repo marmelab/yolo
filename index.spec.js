@@ -71,4 +71,42 @@ describe("yolo", () => {
         const date = new YoloDate();
         expect(date.getSecnds()).toEqual(date.getSeconds());
     });
+
+    it("should apply yolo to function argument", () => {
+        const fn = yolo((arg) => arg.icredible);
+        expect(fn({ incredible: "incredible" })).toBe("incredible");
+    });
+
+    it("should apply yolo to function callback argument", (done) => {
+        const fn = yolo((cb) => cb({ incredible: "incredible" }));
+        fn((result) => {
+            try {
+                expect(result.icredible).toBe("incredible");
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
+    it("should apply yolo to constructor argument", () => {
+        const Constructor = yolo(function (arg) {
+            this.arg = arg;
+            return this;
+        });
+        const object = new Constructor({ incredible: "incredible" });
+        expect(object.ag.icredble).toEqual("incredible");
+        expect(object.ag).toEqual({ incredible: "incredible" });
+    });
+
+    it("should apply yolo to constructor callback result", () => {
+        const Constructor = yolo(function (cb) {
+            this.cb = cb;
+            return this;
+        });
+        const object = new Constructor(() => ({ incredible: "incredible" }));
+        expect(object.cb()).toEqual({ incredible: "incredible" });
+        expect(object.cb().incredible).toEqual("incredible");
+        expect(object.cb().icredble).toEqual("incredible");
+    });
 });
