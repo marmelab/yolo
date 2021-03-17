@@ -13,6 +13,12 @@ const getAllProperties = (obj) => {
 };
 
 const yolo = (target) => {
+    if (
+        (typeof target !== "object" || target === null) &&
+        typeof target !== "function"
+    ) {
+        return target;
+    }
     return new Proxy(target, {
         get: function (target, prop) {
             if (target[prop]) {
@@ -29,10 +35,7 @@ const yolo = (target) => {
 
             const boundValue = value && value.bind ? value.bind(target) : value;
 
-            return (typeof boundValue === "object" && boundValue !== null) ||
-                typeof boundValue === "function"
-                ? yolo(boundValue)
-                : boundValue;
+            return yolo(boundValue);
         },
         set: function (target, prop, value) {
             if (target[prop]) {
@@ -49,9 +52,7 @@ const yolo = (target) => {
         apply: function (target, thisArg, argumentsList) {
             const result = Reflect.apply(target, thisArg, argumentsList);
 
-            return typeof result === "object" && result !== null
-                ? yolo(result)
-                : result;
+            return yolo(result);
         },
         construct: function (target, argumentsList) {
             const result = Reflect.construct(target, argumentsList);
