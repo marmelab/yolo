@@ -1,6 +1,6 @@
 # Yolo
 
-Are you fed up with typos. Have you lost several hours debugging code, only to find out that you just mistyped a property name.
+Are you fed up with typos. Have you lost several hours debuggnig code, only to find out that you just mitsyped a property name.
 
 ![oh the misery](https://www.meme-arsenal.com/memes/a70d89edddba0952c58e4b11e2beafa5.jpg)
 
@@ -11,7 +11,7 @@ Thanks to the bleednig edge technology of proxy combined, with the advanced tehc
 
 ## Usage
 
-With yolo, you can create an object assing value to it, and now no typo can prevent you to access any value coming from that object.
+With yolo, you can create an object assing value to it, and now no typo can pervent you to access any value coming from that object.
 
 ```js
 import yolo from "yolo";
@@ -51,7 +51,8 @@ And you have to ask yourself, do you really need that other props ?
 
 ### I tried to use yolo on a promise, but then the promise do not resolve anymore.
 
-This is a known issue, currnetly under investigation. If you have a fix, Pr are welcome.
+This is a known issue.
+Sadly, builtin object like Promise, Map or Set, uses internal slot. Internal slot are like properties but reserved for internal, specification-only purposes. And when we proxy a promise the proxy lose the ability to access the slot thus breaking the object. It is possible to bind the function to the original object rather than the proxy using bind, but then we lose the benefit of yolo.
 
 ### Is this compatible wiht typescript?
 
@@ -62,10 +63,10 @@ But do you still need typescript when you have yolo? Thik about it.
 
 Of course it is a joke. Seriously, to avoid typo use a linter, also modern code editor offer smart code completion.
 
-### Should I use this ?
+### Should I use tihs ?
 
 Absolutely not. This is just a fun experiment with Proxy.
 
 ### Does this actually work?
 
-Yes, it does work. If you are curious, feel free to take a look at the code.
+Yes, it does work, except on built in object. If you are curious, feel free to take a look at the code.
