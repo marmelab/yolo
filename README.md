@@ -2,16 +2,16 @@
 
 Are you fed up with typos. Have you lost several hours debuggnig code, only to find out that you just mitsyped a property name.
 
-![oh the misery](https://www.meme-arsenal.com/memes/a70d89edddba0952c58e4b11e2beafa5.jpg)
+![oh the misery](./images/cry.png)
 
 With Yolo this will never happen to you again.
 Thanks to the bleednig edge technology of proxy combined, with the advanced tehcnic known as fuzzy search. Yolo correct your typo for you, by finding what you actually meant. And it does this at run time, so as to not slow down the build time.
 
-![genius](https://memegenerator.net/img/instances/45656238.jpg)
+![genius](./images/genius.jpeg)
 
 ## Usage
 
-With yolo, you can create an object assing value to it, and now no typo can pervent you to access any value coming from that object.
+With yolo, you can create an object assigning value to it, and now no typo can pervent you to access any value coming from that object.
 
 ```js
 import yolo from "yolo";
@@ -49,15 +49,15 @@ Yolo will automatically detect `index` and update it instaed.
 But this is really a small price to pay to kiss all typo goodbye.
 And you have to ask yourself, do you really need that other props ?
 
-### I tried to use yolo on a promise, but then the promise do not resolve anymore.
+### I tried to use yolo on a promise, but then the promise did not resolve anymore.
 
 This is a known issue.
-Sadly, builtin object like Promise, Map or Set, uses internal slot. Internal slot are like properties but reserved for internal, specification-only purposes. And when we proxy a promise the proxy lose the ability to access the slot thus breaking the object. It is possible to bind the function to the original object rather than the proxy using bind, but then we lose the benefit of yolo.
+Sadly, builtin object like Promise, Map or Set, uses internal slot. Internal slot are like properties but reserved for internal, specification-only purposes. And when we proxy a promise the proxy loses the ability to access the slot thus breaking the object. It is possible to bind the function to the original object rather than the proxy using bind, but then we lose the benefit of yolo.
 
 ### Is this compatible wiht typescript?
 
 Sadly no. Typescript will refuse to compile when there is a tpyo. You can have typescript, or you can have yolo. Choose wisely.
-But do you still need typescript when you have yolo? Thik about it.
+But do you still need typescript when you have yolo? Thnik about it.
 
 ### Is this a joke ?
 
